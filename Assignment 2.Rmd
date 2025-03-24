@@ -1,0 +1,87 @@
+---
+title: "Assignment 2"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+date: "2025-03-22"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(ggplot2)
+library(ggridges) #for ridgeline plot
+library(ggforce) #for pie chart
+
+data = read.csv("workout_fitness_tracker_data.csv")
+head(data)
+```
+
+```{r}
+#pie chart
+
+ggplot(data, aes(x = "", y = Sleep.Hours, fill = Gender)) +
+  geom_col(width = 1) +
+  coord_polar(theta = "y") +
+  labs(title = "Pie Chart of Sleep Hours for each Gender", x = "", y = "") +
+  scale_fill_manual(values = c("#B5E48C", "#34A0A4", "#1E6091"))
+```
+
+```{r}
+#stacked bar plot
+
+ggplot(data, aes(x = Mood.Before.Workout, fill = Gender)) +
+     geom_bar(width=.5) +
+     scale_fill_manual(values = c("#B5E48C", "#34A0A4", "#1E6091")) +
+     labs(title = "Side-by-Side Bar Plot of Gender Workout Intensity", x = "Mood before Workout")
+```
+
+```{r}
+#side-by-side bar plots
+
+ggplot(data, aes(x = Workout.Intensity, fill = Gender)) +
+     geom_bar(width=.5, position = "dodge") +
+     scale_fill_manual(values = c("#B5E48C", "#34A0A4", "#1E6091")) +
+     labs(title = "Side-by-Side Bar Plot of Gender Workout Intensity", x = "Intensity of Workout")
+```
+
+```{r}
+#stacked densities
+
+ggplot(data, aes(x = Mood.After.Workout, fill = Workout.Intensity)) +
+  geom_density(alpha = 0.35) +
+  scale_fill_manual(values = c("#B5E48C", "#34A0A4", "#1E6091")) +
+  labs(title = "Stacked Density of Workout Intensity VS Mood after Workout", x = "Mood after Workout",
+       fill = "Workout Intensity")
+```
+
+```{r}
+#box plot
+
+ggplot(data, aes(x = Workout.Type, y = Heart.Rate..bpm., fill = Workout.Type)) +
+  geom_boxplot(outlier.colour = "red", outlier.shape = 16, outlier.size = 2) +
+  scale_fill_manual(values = c("#D9ED92", "#99D98C", "#52B69A", "#34A0A4", "#1A759F", "#184E77")) +
+  labs(title = "Boxplot of Heart Rate (bpm) for Workout Types", x = "Workout Type", 
+       y = "Heart Rate (bpm)", fill = "Workout Type")
+```
+
+```{r}
+#violin plot
+
+ggplot(data, aes(x = Gender, y = Steps.Taken, fill = Gender)) +
+  geom_violin() +
+  scale_fill_manual(values = c("#B5E48C", "#34A0A4", "#1E6091")) +
+  labs(title = "Violin Plot for Steps Taken for Genders", y = "Steps Taken")
+```
+
+```{r}
+#ridgeline plot
+
+ggplot(data, aes(x = Workout.Duration..mins., y = Workout.Type, fill = Workout.Type)) + 
+  geom_density_ridges() +
+  scale_fill_manual(values = c("#D9ED92", "#99D98C", "#52B69A", "#34A0A4", "#1A759F", "#184E77")) +
+  labs(title = "Ridgeline Plot for Workout Duration and Workout Type", x = "Workout Duration (mins)", y = "Wourkout Type", fill = "Workout Type")
+```
